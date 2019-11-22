@@ -1,0 +1,16 @@
+Package: vantage.chisq
+Type: Package
+Title: Chi Squared Algorithm for the Vantage Infrastructure
+Version: 0.1.0
+Author: 
+    Frank Martin <f.martin@iknl.nl>, 
+    Gijs Geleijnse <g.geleijnse@iknl.nl>, 
+    Melle Sieswerda <m.sieswerda@iknl.nl>
+Maintainer: Melle Sieswerda <m.sieswerda@iknl.nl>
+Description: This implementation can be used with the Vantage federated
+    learning infrastructure (see https://github.com/IKNL/vantage).
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: vantage.infrastructure
+Remotes: mellesies/vantage.infrastructure
