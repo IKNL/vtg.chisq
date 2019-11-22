@@ -18,5 +18,5 @@ RUN touch database
 
 
 # Tell docker to execute `docker.wrapper()` when the image is run.
-CMD Rscript --default-packages=vantage.chisq -e 'vantage.chisq::docker.entrypoint()'
+CMD Rscript -e 'library(vantage.chisq)' -e 'vantage.infrastructure::docker.wrapper()'
 

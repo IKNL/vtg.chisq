@@ -1,2 +1,3 @@
+
 library("devtools")
-install_github("mellesies/vantage.chisq")
+install_github("mellesies/vantage.chisq", force=T)
