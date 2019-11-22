@@ -12,5 +12,7 @@ Description: This implementation can be used with the Vantage federated
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: vantage.infrastructure
-Remotes: mellesies/vantage.infrastructure
+Imports: 
+    vantage.infrastructure
+Remotes: 
+    mellesies/vantage.infrastructure
