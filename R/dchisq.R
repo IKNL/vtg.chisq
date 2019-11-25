@@ -3,9 +3,11 @@
 #' FIXME: need to handle > 2 sites.
 dchisq <- function(client, expl_vars) {
   writeln("Retrieving colSums")
+  # image.name <- "docker-registry.distributedlearning.ai/vantage.chisq",
+  image.name <- "harbor.distributedlearning.ai/vantage/vantage.chisq:test"
 
   client$set.task.image(
-    "docker-registry.distributedlearning.ai/dl_chisq",
+    image.name,
     task.name="ChiSq"
   )
 

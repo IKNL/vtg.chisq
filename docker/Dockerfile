@@ -3,6 +3,8 @@
 # network hubs.
 FROM custom-r-base
 
+LABEL maintainer="Melle Sieswerda <m.sieswerda@iknl.nl>"
+
 # Change directory to '/app’. This means the subsequent ‘RUN’ steps will
 # execute in this directory.
 WORKDIR /app
