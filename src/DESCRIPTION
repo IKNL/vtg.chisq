@@ -1,4 +1,4 @@
-Package: vantage.chisq
+Package: vtg.chisq
 Type: Package
 Title: Chi Squared Algorithm for the Vantage Infrastructure
 Version: 0.1.0
@@ -13,6 +13,7 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    vantage.infrastructure
+    vtg
 Remotes: 
-    mellesies/vantage.infrastructure
+    mellesies/vtg
+RoxygenNote: 7.0.2
