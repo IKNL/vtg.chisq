@@ -3,8 +3,8 @@
 ## Installation
 Run the following in the R console to install the package and its dependencies:
 ```R
-# This also installs the package vantage.infrastructure
-devtools::install_github('mellesies/vantage.chisq')
+# This also installs the package vtg
+devtools::install_github('mellesies/vtg.chisq')
 ```
 
 ## Example use
