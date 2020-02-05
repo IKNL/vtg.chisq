@@ -1,16 +1,18 @@
-# vantage.chisq
+# vtg.chisq
+
+Implementation of the federated Chi2 algorithm for the [Vantage6](https://github.com/IKNL/VANTAGE6) federated infrastructure.
 
 ## Installation
 Run the following in the R console to install the package and its dependencies:
 ```R
 # This also installs the package vtg
-devtools::install_github('mellesies/vtg.chisq')
+devtools::install_github('mellesies/vtg.chisq', subdir='src')
 ```
 
 ## Example use
 ```R
 # Load the package
-library(vantage.chisq)
+library(vtg.chisq)
 
 # Function to create a client
 setup.client <- function() {
@@ -22,7 +24,7 @@ setup.client <- function() {
   api_path <- ''
   
   # Create the client
-  client <- vantage.infrastructure::Client(host, username, password, collaboration_id, api_path)
+  client <- vtg::Client(host, username, password, collaboration_id, api_path)
   client$authenticate()
 
   return(client)
@@ -35,14 +37,14 @@ client <- setup.client()
 # one-hot encoded variable.
 expl_vars <- c()
 
-# vantage.chisq contains the function `dchisq`.
+# vtg.chisq contains the function `dchisq`.
 result <- dchisq(client, expl_vars)
 ```
 
 ## Example use for testing
 ```R
 # Load the package
-library(vantage.chisq)
+library(vtg.chisq)
 
 # Load a dataset
 data(SEER)
