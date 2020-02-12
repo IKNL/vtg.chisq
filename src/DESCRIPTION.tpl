@@ -1,9 +1,4 @@
-Vantage-Comment:
-    ************************************************
-    * This file was generated from DESCRIPTION.tpl *
-    * Please don't modify it directly!             *
-    ************************************************
-Package: vtg.chisq
+Package: {{PKG_NAME}}
 Type: Package
 Title: Chi Squared Algorithm for the Vantage Infrastructure
 Version: 0.1.0
@@ -24,4 +19,6 @@ Imports:
     vtg
 Remotes:
     mellesies/vtg
-RoxygenNote: 7.0.2
+RoxygenNote: 7.0.0
+
+

@@ -1,0 +1,85 @@
+# `make` is expected to be called from the directory that contains
+# this Makefile
+
+# PKG_NAME is based on the name of the folder that holds this code
+# (i.e. the name of the directory that contains 'src')
+$(eval PKG_NAME := $(shell Rscript -e "cat(basename(dirname(getwd())))"))
+
+HOST := 'harbor.distributedlearning.ai'
+IMAGE := "vantage/${PKG_NAME}"
+TAG := "test"
+$(eval PWD := $(shell Rscript -e "cat(dirname(getwd()))"))
+
+echo:
+	@echo "package name: ${PKG_NAME}"
+	@echo "  image name: ${IMAGE}"
+	@echo "  tag: ${TAG}"
+	@echo "  pwd: ${PWD}"
+	@echo ""
+
+help:
+	@echo "Run ..."
+	@echo "  'make build' to build the package in ../dist"
+	@echo "  'make install' to install the source package"
+	@echo "  'make docker' to build & push the docker image"
+	@echo "  'make all' to build the package and push the docker image"
+
+all: echo build install docker
+
+build: install_deps document
+	@echo "*** Building \"$(PKG_NAME)\" ***"
+	@mkdir ../dist; cd ../dist; R CMD build ../src
+
+install_deps: DESCRIPTION
+	@echo "*** Installing dependencies for \"$(PKG_NAME)\" ***"
+	@Rscript -e 'library(devtools)' -e 'install_deps(".")'
+
+install: install_deps document
+	@echo "*** Installing package \"$(PKG_NAME)\" ***"
+	@R CMD INSTALL --no-multiarch --with-keep.source .
+
+uninstall:
+	@echo "*** Removing package \"$(PKG_NAME)\" ***"
+	@R CMD REMOVE ${PKG_NAME}
+
+DESCRIPTION: DESCRIPTION.tpl
+	@echo "Generating \"DESCRIPTION\" from \"DESCRIPTION.tpl\""
+	@echo "Vantage-Comment:" > DESCRIPTION
+	@echo "    ************************************************" >> DESCRIPTION
+	@echo "    * This file was generated from DESCRIPTION.tpl *" >> DESCRIPTION
+	@echo "    * Please don't modify it directly!             *" >> DESCRIPTION
+	@echo "    ************************************************" >> DESCRIPTION
+	@sed "s/{{PKG_NAME}}/${PKG_NAME}/g" DESCRIPTION.tpl >> DESCRIPTION
+
+document:
+	@Rscript -e "devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))"
+
+docker: DESCRIPTION docker_build docker_push
+
+docker_build:
+	@echo "************************************************************************"
+	@echo "* Building image '${IMAGE}:${TAG}' "
+	@echo "************************************************************************"
+
+	# The custom R base adds a few linux packages (openssl & xml2)
+	# Additionally, it installs the R packages in 'install_base_packages.R'
+	# to speedup building the image container this package's source.
+	docker build \
+	   -f ../docker/Dockerfile.custom-r-base \
+	   -t custom-r-base \
+	   ../
+
+	# Build the docker image containing the local algorithm
+	# docker build --no-cache -f docker/Dockerfile -t $IMAGE:$TAG -t $HOST/$IMAGE:$TAG .
+	docker build \
+	  -f ../docker/Dockerfile \
+	   --build-arg PKG_NAME=${PKG_NAME} \
+	  -t ${IMAGE}:${TAG} \
+	  -t ${HOST}/${IMAGE}:${TAG} \
+	  ../
+
+docker_push: docker_build
+	docker push ${HOST}/${IMAGE}:${TAG}
+
+clean:
+	rm DESCRIPTION

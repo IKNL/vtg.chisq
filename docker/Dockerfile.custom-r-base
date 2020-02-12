@@ -12,6 +12,6 @@ RUN apt-get install -y libssl-dev libcurl4-openssl-dev libxml2-dev
 # execute in this directory.
 WORKDIR /app
 
-COPY install_base_packages.R /app
+COPY docker/install_base_packages.R /app
 RUN Rscript install_base_packages.R
 
