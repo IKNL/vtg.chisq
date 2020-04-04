@@ -3,7 +3,7 @@
 #' FIXME: need to handle > 2 sites.
 dchisq <- function(client, expl_vars) {
   writeln("Retrieving colSums")
-  image.name <- "harbor.distributedlearning.ai/vantage/vtg.chisq:test"
+  image.name <- "harbor.distributedlearning.ai/vantage/vtg.chisq:trolltunga"
 
   client$set.task.image(
     image.name,

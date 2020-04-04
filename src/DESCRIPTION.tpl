@@ -18,7 +18,7 @@ Imports:
     rjson,
     vtg
 Remotes:
-    mellesies/vtg
+    mellesies/vtg@trolltunga
 RoxygenNote: 7.0.0
 
 
