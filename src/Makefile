@@ -5,26 +5,25 @@
 # (i.e. the name of the directory that contains 'src')
 $(eval PKG_NAME := $(shell Rscript -e "cat(basename(dirname(getwd())))"))
 
+# These variables can be set as environment variables or as arguments to `make`
 HOST ?= harbor.distributedlearning.ai
 IMAGE ?= vantage/${PKG_NAME}
 TAG ?= trolltunga
 $(eval PWD := $(shell Rscript -e "cat(dirname(getwd()))"))
 
-echo:
-	@echo "package name: ${PKG_NAME}"
-	@echo "  image name: ${IMAGE}"
-	@echo "  tag: ${TAG}"
-	@echo "  pwd: ${PWD}"
-	@echo ""
-
 help:
 	@echo "Run ..."
+	@echo "  'make echo' to print the parameters that will be used for building/dockerizing"
 	@echo "  'make build' to build the package in ../dist"
 	@echo "  'make install' to install the source package"
 	@echo "  'make docker' to build & push the docker image"
-	@echo "  'make all' to build the package and push the docker image"
 
-all: echo build install docker
+echo:
+	@echo "package name: ${PKG_NAME}"
+	@echo "  image name: ${IMAGE}"
+	@echo "         tag: ${TAG}"
+	@echo "         pwd: ${PWD}"
+	@echo ""
 
 build: install-deps document
 	@echo "*** Building \"$(PKG_NAME)\" ***"
