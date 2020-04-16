@@ -11,21 +11,16 @@ devtools::install_github('mellesies/vtg.chisq', subdir='src')
 
 ## Example use
 ```R
-# Load the package
-library(vtg.chisq)
-
-# Function to create a client
 setup.client <- function() {
   # Define parameters
   username <- "username@example.com"
   password <- "password"
-  collaboration_id <- 1
-  host <- 'https://api-test.distributedlearning.ai'
+  host <- 'https://trolltunga.vantage6.ai'
   api_path <- ''
   
   # Create the client
-  client <- vtg::Client(host, username, password, collaboration_id, api_path)
-  client$authenticate()
+  client <- vtg::Client$new(host, api_path=api_path)
+  client$authenticate(username, password)
 
   return(client)
 }
@@ -33,9 +28,20 @@ setup.client <- function() {
 # Create a client
 client <- setup.client()
 
+# Get a list of available collaborations
+print( client$getCollaborations() )
+
+# Should output something like this:
+#   id     name
+# 1  1 ZEPPELIN
+# 2  2 PIPELINE
+
+# Select a collaboration
+client$setCollaborationId(1)
+
 # The explanatory variables should correspond to a single, 
 # one-hot encoded variable.
-expl_vars <- c()
+expl_vars <- c("Mar2","Mar3","Mar4","Mar5","Mar9")
 
 # vtg.chisq contains the function `dchisq`.
 result <- dchisq(client, expl_vars)
@@ -43,15 +49,13 @@ result <- dchisq(client, expl_vars)
 
 ## Example use for testing
 ```R
-# Load the package
-library(vtg.chisq)
-
-# Load a dataset
-data(SEER)
+# Load a dataset; this creates the variable `SEER`.
+# NOTE: this requires the package `vtg.basic` to be installed!
+data('SEER', package='vtg.basic')
 
 # Select the columns corresponding to the variable "Mar"
 expl_vars <- c("Mar2","Mar3","Mar4","Mar5","Mar9")
 
-# Run the Chi^2 analysis
-dchisq.mock(SEER, expl_vars)
+# Mock a distributed Chi^2 analysis.
+vtg.chisq::dchisq.mock(SEER, expl_vars)
 ```

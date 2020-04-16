@@ -5,9 +5,9 @@
 # (i.e. the name of the directory that contains 'src')
 $(eval PKG_NAME := $(shell Rscript -e "cat(basename(dirname(getwd())))"))
 
-HOST := 'harbor.distributedlearning.ai'
-IMAGE := "vantage/${PKG_NAME}"
-TAG := "trolltunga"
+HOST ?= harbor.distributedlearning.ai
+IMAGE ?= vantage/${PKG_NAME}
+TAG ?= trolltunga
 $(eval PWD := $(shell Rscript -e "cat(dirname(getwd()))"))
 
 echo:
