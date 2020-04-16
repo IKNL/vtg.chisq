@@ -34,7 +34,7 @@ install-deps: DESCRIPTION
 	@echo "*** Installing dependencies for \"$(PKG_NAME)\" ***"
 	@Rscript -e 'library(devtools)' -e 'install_deps(".")'
 
-install: install-deps document
+install: document
 	@echo "*** Installing package \"$(PKG_NAME)\" ***"
 	@R CMD INSTALL --no-multiarch --with-keep.source .
 
@@ -54,7 +54,7 @@ DESCRIPTION: DESCRIPTION.tpl
 document:
 	@Rscript -e "devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))"
 
-docker: DESCRIPTION docker-build docker_push
+docker: DESCRIPTION docker-build docker-push
 
 docker-build:
 	@echo "************************************************************************"
@@ -78,7 +78,7 @@ docker-build:
 	  -t ${HOST}/${IMAGE}:${TAG} \
 	  ../
 
-docker_push: docker-build
+docker-push: docker-build
 	docker push ${HOST}/${IMAGE}:${TAG}
 
 clean:

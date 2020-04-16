@@ -2,7 +2,8 @@
 #'
 #' FIXME: need to handle > 2 sites.
 dchisq <- function(client, expl_vars) {
-  writeln("Retrieving colSums")
+  log <- lgr::get_logger_glue("vtg.chisq/dchisq")
+
   image.name <- "harbor.distributedlearning.ai/vantage/vtg.chisq:trolltunga"
 
   client$set.task.image(
@@ -10,6 +11,7 @@ dchisq <- function(client, expl_vars) {
     task.name="ChiSq"
   )
 
+  log$debug("Retrieving colSums using image '{image.name}'")
   colsums <- client$call("colSums", expl_vars)
 
   if (length(colsums) == 1) {
@@ -21,7 +23,7 @@ dchisq <- function(client, expl_vars) {
     stop(msg)
   }
 
-  writeln("Computing statistics")
+  log$debug("Computing statistic")
   s <- colsums[[1]]
   d <- colsums[[2]]
   result <- compute.chisq(s, d)
