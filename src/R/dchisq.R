@@ -2,7 +2,7 @@
 #'
 #' FIXME: need to handle > 2 sites.
 dchisq <- function(client, expl_vars) {
-  log <- lgr::get_logger_glue("vtg.chisq/dchisq")
+  log <- lgr::get_logger_glue("vtg/vtg.chisq")
 
   image.name <- "harbor.distributedlearning.ai/vantage/vtg.chisq:trolltunga"
 
@@ -11,6 +11,14 @@ dchisq <- function(client, expl_vars) {
     task.name="ChiSq"
   )
 
+  # Run in a MASTER container
+  if (client$use.master.container) {
+    log$debug("Running `dchisq` in master container using image '{image.name}'")
+    result <- client$call("dchisq", expl_vars)
+    return(result)
+  }
+
+  # Run in a REGULAR container
   log$debug("Retrieving colSums using image '{image.name}'")
   colsums <- client$call("colSums", expl_vars)
 
@@ -30,5 +38,3 @@ dchisq <- function(client, expl_vars) {
 
   return(result)
 }
-
-
